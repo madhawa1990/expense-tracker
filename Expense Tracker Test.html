@@ -52,14 +52,14 @@ label {
           <!-- Date -->
           <div class="mb-3">
             <label for="expenseDate" class="form-label mb-0">Date</label>
-            <input type="date" class="form-control mt-0" id="mdate" name="mdate" required>
+            <input type="date" class="form-control mt-0 mb-0 form-control-lg" id="mdate" name="mdate" required>
             <div class="invalid-feedback">Please select a date.</div>
           </div>
 
           <!-- Category -->
           <div class="mb-3">
             <label for="category" class="form-label mb-0">Category</label>
-            <select class="form-select  mt-0" id="category" name="category" required>
+            <select class="form-select mt-0 mb-0 form-control-lg" id="category" name="category" required>
               <option value="">Select category</option>
             </select>
             <div class="invalid-feedback">Please select a category.</div>
@@ -68,19 +68,19 @@ label {
           <!-- Description -->
           <div class="mb-3">
             <label for="description" class="form-label mb-0">Description</label>
-            <input type="text" class="form-control mt-0" id="desc" name="desc" placeholder="Enter description" required>
+            <input type="text" class="form-control mt-0 mb-0 form-control-lg" id="desc" name="desc" placeholder="Enter description" required>
             <div class="invalid-feedback">Please enter a description.</div>
           </div>
 
           <!-- Amount -->
           <div class="mb-3">
             <label for="amount" class="form-label mb-0">Amount</label>
-            <input type="number" class="form-control mt-0" id="amount" name="amount" placeholder="0.00" min="0" step="0.01" required>
+            <input type="number" class="form-control mt-0 mb-0 form-control-lg" id="amount" name="amount" placeholder="0.00" min="0" step="0.01" required>
             <div class="invalid-feedback">Please enter a valid amount.</div>
           </div>
 
           <!-- Save Button -->
-          <button type="submit" class="btn btn-primary" id="saveBtn">
+          <button type="submit" class="btn btn-primary form-control-lg" id="saveBtn">
             <span id="loadingSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
             Save
           </button>
