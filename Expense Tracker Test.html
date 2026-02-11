@@ -57,16 +57,14 @@ label {
 <button onclick="save()">Save Expense</button> -->
 
 <div class="container mt-5">
-  <h2 class="mb-4 text-center">Add Expense</h2>
+  <h2 class="mb-4 text-center">Dashboard</h2>
 
   <div class="row mb-0">
     <div class="col-6">
-        <!-- <div class="btn-group btn-group-lg" role="group" aria-label="Large button group"> -->
           <button type="button" class="btn btn-outline-primary w-100"
             style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" id="btnSummary" onclick="switchDives('summary')">
             Summary
           </button>
-        <!-- </div> -->
     </div>
     <div class="col-6">
       <button type="button" class="btn btn-outline-primary w-100" id="btnAddNew" onclick="switchDives('addNew')"
@@ -80,13 +78,13 @@ label {
     <div class="col">
       <div class="card">
         <div class="card-body">
-          <span style="font-size: 20px;font-weight: 700;font-family: calibri;" class="d-block mb-0">Monthly Snapshot</span>
+          <span style="font-size: 20px;font-weight: 700;" class="d-block mb-0">Monthly Snapshot</span>
           <span class="d-block mb-3 mt-3 text-center" id="totSummaryLoading">
             <div class="spinner-border text-info text-center" role="status">
               <span class="visually-hidden">Loading...</span>
             </div>
           </span>
-          <span style ="font-size: 50px;font-weight: 600;font-family: calibri;" class="d-block" id="totSummary"></span>
+          <span style ="font-size: 50px;font-weight: 600;" class="d-block mt-0" id="totSummary"></span>
         </div>
       </div>
     </div>
@@ -122,48 +120,52 @@ label {
     </div>
   </div> -->
 
-
-  <div class="row" id="addMain">
+  <div class="row mb-2" id="addMain">
     <div class="col">
-      <form id="expenseForm" class="needs-validation" novalidate>
-          <!-- Date -->
-          <div class="mb-3">
-            <label for="expenseDate" class="form-label mb-0">Date</label>
-            <input type="date" class="form-control mt-0 mb-0 form-control-lg" id="mdate" name="mdate" required>
-            <div class="invalid-feedback">Please select a date.</div>
-          </div>
+      <div class="card border">
+        <div class="card-body">
+          <form id="expenseForm" class="needs-validation" novalidate>
+            <!-- Date -->
+            <div class="mb-3">
+              <label for="expenseDate" class="form-label mb-0">Date</label>
+              <input type="date" class="form-control mt-0 mb-0 form-control-lg" id="mdate" name="mdate" required>
+              <div class="invalid-feedback">Please select a date.</div>
+            </div>
 
-          <!-- Category -->
-          <div class="mb-3">
-            <label for="category" class="form-label mb-0">Category</label>
-            <select class="form-control mt-0 mb-0 form-control-lg" id="category" name="category" required>
-              <option value="">Select category</option>
-            </select>
-            <div class="invalid-feedback">Please select a category.</div>
-          </div>
+            <!-- Category -->
+            <div class="mb-3">
+              <label for="category" class="form-label mb-0">Category</label>
+              <select class="form-control mt-0 mb-0 form-control-lg" id="category" name="category" required>
+                <option value="">Select category</option>
+              </select>
+              <div class="invalid-feedback">Please select a category.</div>
+            </div>
 
-          <!-- Description -->
-          <div class="mb-3">
-            <label for="description" class="form-label mb-0">Description</label>
-            <input type="text" class="form-control mt-0 mb-0 form-control-lg" id="desc" name="desc" placeholder="Enter description" required>
-            <div class="invalid-feedback">Please enter a description.</div>
-          </div>
+            <!-- Description -->
+            <div class="mb-3">
+              <label for="description" class="form-label mb-0">Description</label>
+              <input type="text" class="form-control mt-0 mb-0 form-control-lg" id="desc" name="desc" placeholder="Enter description" required>
+              <div class="invalid-feedback">Please enter a description.</div>
+            </div>
 
-          <!-- Amount -->
-          <div class="mb-3">
-            <label for="amount" class="form-label mb-0">Amount</label>
-            <input type="number" class="form-control mt-0 mb-0 form-control-lg" id="amount" name="amount" placeholder="0.00" min="0" step="0.01" required>
-            <div class="invalid-feedback">Please enter a valid amount.</div>
-          </div>
+            <!-- Amount -->
+            <div class="mb-3">
+              <label for="amount" class="form-label mb-0">Amount</label>
+              <input type="number" class="form-control mt-0 mb-0 form-control-lg" id="amount" name="amount" placeholder="0.00" min="0" step="0.01" required>
+              <div class="invalid-feedback">Please enter a valid amount.</div>
+            </div>
 
-          <!-- Save Button -->
-          <button type="submit" class="btn btn-primary form-control-lg" id="saveBtn">
-            <span id="loadingSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
-            Save Expense
-          </button>
-        </form>
+            <!-- Save Button -->
+            <button type="submit" class="btn btn-primary form-control-lg" id="saveBtn">
+              <span id="loadingSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
+              Save Expense
+            </button>
+          </form>
+        </div>
+      </div>
     </div>
   </div>
+
 </div>
 
 
