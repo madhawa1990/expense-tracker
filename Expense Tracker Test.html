@@ -30,6 +30,19 @@ button{
 label {
     color: #7a7978;
 }
+
+.totalSummaryDiv {
+    font-size: 20px;
+    font-weight: 700;
+    font-family: calibri;
+}
+
+.smallBtn{
+  font-size: 15px;
+  padding-top: 3px; 
+  padding-bottom: 3px;
+  height: 25px;
+}
 </style>
 </head>
 
@@ -45,8 +58,62 @@ label {
 
 <div class="container mt-5">
   <h2 class="mb-4 text-center">Add Expense</h2>
-  <div id="message"></div> <!-- Success/Error messages -->
-  <div class="row">
+
+<div class="row mb-0">
+  <div class="col-6">
+      <!-- <div class="btn-group btn-group-lg" role="group" aria-label="Large button group"> -->
+        <button type="button" class="btn btn-outline-primary w-100"
+          style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;" id="btnSummary" onclick="switchDives('summary')">
+          Summary
+        </button>
+      <!-- </div> -->
+  </div>
+  <div class="col-6">
+    <button type="button" class="btn btn-outline-primary w-100" id="btnAddNew" onclick="switchDives('addNew')"
+      style="--bs-btn-padding-y: .25rem; --bs-btn-padding-x: .5rem; --bs-btn-font-size: .75rem;">
+      Add New
+    </button>
+  </div>
+</div>
+
+  
+  <div class="row mb-2" id="totSummaryMain">
+    <div class="col">
+      <div class="card" style="">
+        <ul class="list-group list-group-flush" id="">
+          <li class="list-group-item" >
+            <span style="font-size: 20px;font-weight: 700;font-family: calibri;" class="d-block mb-0">Monthly Snapshot</span>
+            <span class="d-block mb-3 mt-3 text-center" id="totSummaryLoading">
+              <div class="spinner-border text-info text-center" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </span>
+            <span style ="font-size: 50px;font-weight: 600;font-family: calibri;" class="d-block" id="totSummary"></span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="row" id="summaryMain">
+    <div class="col">
+      <div class="card" style="">
+        <span class="d-block mb-3 mt-3 text-center" id="SummaryLoading">
+          <div class="spinner-border text-info text-center" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </span>
+        <ul class="list-group list-group-flush" id="summaryDiv">
+            
+        </ul>
+        <div class="card-footer" id="card-footer-total">
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row" id="addMain">
     <div class="col">
       <form id="expenseForm" class="needs-validation" novalidate>
           <!-- Date -->
@@ -82,7 +149,7 @@ label {
           <!-- Save Button -->
           <button type="submit" class="btn btn-primary form-control-lg" id="saveBtn">
             <span id="loadingSpinner" class="spinner-border spinner-border-sm d-none" role="status" aria-hidden="true"></span>
-            Save
+            Save Expense
           </button>
         </form>
     </div>
@@ -92,11 +159,14 @@ label {
 
 <script>
 
-const URL = "https://script.google.com/macros/s/AKfycbyJ6H9okpMw2pMk9KYM-RYTT3Gzl4KyV8DfCaSYtT0MxX2bOte_2orSsg8zserJUFIQpw/exec";
+const URL = "https://script.google.com/macros/s/AKfycbz-BNJS5HcpvyDW8T_1dohHYFg1hu0HJGECEOxDoI2GfwAHOxPa-HZ3RDBIMHiT-GoFqA/exec";
+
+
+
 
 // Load categories
 async function loadCategories(){
-  const res = await fetch(URL);
+  const res = await fetch(URL+"?method=categories");
   const data = await res.json();
   const select = document.getElementById("category");
 
@@ -108,9 +178,33 @@ async function loadCategories(){
   });
 }
 
+function showLoading(ele) {
+    document.getElementById(ele).classList.remove("d-none");
+}
+
+function hideLoading(ele) {
+    document.getElementById(ele).classList.add("d-none");
+}
+
+document.getElementById("btnSummary").click();
+function switchDives(btn){
+  const summaryMain = document.getElementById("summaryMain");
+  const totSummaryMain = document.getElementById("totSummaryMain");
+  const addMain = document.getElementById("addMain");
+  if(btn=="summary"){
+    summaryMain.classList.remove('d-none');
+    totSummaryMain.classList.remove('d-none');
+    addMain.classList.add("d-none");
+    loadSummary();
+  }else{
+    summaryMain.classList.add('d-none');
+    totSummaryMain.classList.add('d-none');
+    addMain.classList.remove("d-none");
+  }
+}
+
 const form = document.getElementById('expenseForm');
 const spinner = document.getElementById('loadingSpinner');
-//const messageDiv = document.getElementById('message');
 
  form.addEventListener('submit', async function(event) {
   event.preventDefault(); // Prevent page refresh
@@ -148,10 +242,50 @@ const spinner = document.getElementById('loadingSpinner');
 
 });
 
-  const today = new Date().toISOString().split('T')[0];
-  document.getElementById('mdate').value = today;
+const today = new Date().toISOString().split('T')[0];
+document.getElementById('mdate').value = today;
 
 loadCategories();
+loadSummary();
+
+async function loadSummary() {
+  const month = "2026-Feb"; // or dynamic
+
+  showLoading("totSummaryLoading");
+  showLoading("SummaryLoading");
+
+  const summaryDiv  = document.getElementById("summaryDiv");
+  const totalDiv    = document.getElementById("card-footer-total");
+  const totSummary  = document.getElementById("totSummary");
+  summaryDiv.innerHTML = "";
+  totSummary.innerHTML = "";
+  totalDiv.innerHTML   = ""; 
+  
+  const res = await fetch(URL+"?method=summary"+"&month="+month);
+  const data = await res.json();
+
+  summaryDiv.innerHTML = "";
+  totSummary.innerHTML = "";
+  totalDiv.innerHTML   = ""; 
+
+  let total = 0;
+
+  for (const cat in data) {
+    if(cat!=""){
+    total += data[cat];
+    summaryDiv.innerHTML += `
+    <li class="list-group-item  d-flex justify-content-between"><span class="">${cat}</span> <span class="">€ ${data[cat].toFixed(2)}</span></li>
+    `;
+    }
+  }
+
+  hideLoading("totSummaryLoading");
+  hideLoading("SummaryLoading");
+  totSummary.innerHTML = `€ ${total.toFixed(2)}`;
+  totalDiv.innerHTML += `
+  <li class="list-group-item  d-flex justify-content-between fw-bold mt-2"><span class="">Total</span> <span class="">€ ${total.toFixed(2)}</span></li>
+    `;
+}
 
 </script>
 </body>
